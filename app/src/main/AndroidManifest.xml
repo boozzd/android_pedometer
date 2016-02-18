@@ -26,6 +26,13 @@
         </activity>
         <service
             android:name=".StepCounterService"/>
+        <service android:name=".NotificationService" />
+
+        <receiver android:name=".NotificationServiceReceiver">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+            </intent-filter>
+        </receiver>
         <receiver android:name=".StepCounterBootReceiver">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />

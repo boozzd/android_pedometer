@@ -1,11 +1,16 @@
 package com.example.boozz.pedometer;
 
+import android.app.PendingIntent;
+import android.app.TaskStackBuilder;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
 import android.content.Intent;
+
+import android.app.Notification;
+import android.app.NotificationManager;
 
 import android.util.Log;
 import com.example.boozz.pedometer.util.Util;
@@ -57,5 +62,11 @@ public class MainActivity extends AppCompatActivity {
 
             Log.i(TAG, "Getting steps for today: " + daySteps);
         }
+        Intent notificationIntent = new Intent(this, NotificationService.class);
+        notificationIntent.putExtra("type", "");
+        startService(notificationIntent);
+
+        Intent stepCounter = new Intent(this, StepCounterService.class);
+        startService(stepCounter);
     }
 }
