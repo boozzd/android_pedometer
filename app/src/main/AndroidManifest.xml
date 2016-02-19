@@ -10,6 +10,7 @@
         android:required="true"/>
 
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <uses-permission android:name="android.permission.BIND_NOTIFICATION_LISTENER_SERVICE"/>
 
     <application
         android:allowBackup="true"
@@ -28,11 +29,7 @@
             android:name=".StepCounterService"/>
         <service android:name=".NotificationService" />
 
-        <receiver android:name=".NotificationServiceReceiver">
-            <intent-filter>
-                <action android:name="android.intent.action.BOOT_COMPLETED" />
-            </intent-filter>
-        </receiver>
+        <receiver android:name=".NotificationServiceReceiver" />
         <receiver android:name=".StepCounterBootReceiver">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
