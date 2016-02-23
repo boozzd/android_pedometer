@@ -36,38 +36,44 @@ public class MainActivity extends AppCompatActivity {
 
         SharedPreferences sharedPref = getSharedPreferences("UserData", Context.MODE_PRIVATE);
 //        SharedPreferences sharedPref = activity.getSharedPreferences("UserData", Context.MODE_PRIVATE);
-//        if(sharedPref.contains("pedometerData")){
-//            String pDataString = sharedPref.getString("pedometerData", "{}");
-//
-//            Date currentDate = new Date();
-//            SimpleDateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd");
-//            String currentDateString = dateFormatter.format(currentDate);
-//
-//            JSONObject pData = new JSONObject();
-//            JSONObject dayData = new JSONObject();
-//            Integer daySteps = -1;
-//            try{
-//                pData = new JSONObject(pDataString);
-//                Log.d(TAG," got json shared prefs "+pData.toString());
-//            }catch (JSONException err){
-//                Log.d(TAG," Exception while parsing json string : "+pDataString);
-//            }
-//
-//            if(pData.has(currentDateString)){
-//                try {
-//                    dayData = pData.getJSONObject(currentDateString);
-//                    daySteps = dayData.getInt("steps");
-//                }catch(JSONException err){
-//                    Log.e(TAG,"Exception while getting Object from JSON for "+currentDateString);
-//                }
-//            }
-//
-//            Log.i(TAG, "Getting steps for today: " + daySteps);
-//        }
-        setAlarm();
+        if(sharedPref.contains("pedometerData")){
+            String pDataString = sharedPref.getString("pedometerData", "{}");
 
-        Intent stepCounter = new Intent(this, StepCounterService.class);
-        startService(stepCounter);
+            Date currentDate = new Date();
+            SimpleDateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd");
+            String currentDateString = dateFormatter.format(currentDate);
+
+            JSONObject pData = new JSONObject();
+            JSONObject dayData = new JSONObject();
+            Integer daySteps = -1;
+            try{
+                pData = new JSONObject(pDataString);
+                Log.d(TAG," got json shared prefs "+pData.toString());
+            }catch (JSONException err){
+                Log.d(TAG," Exception while parsing json string : "+pDataString);
+            }
+
+            if(pData.has(currentDateString)){
+                try {
+                    dayData = pData.getJSONObject(currentDateString);
+                    daySteps = dayData.getInt("steps");
+                }catch(JSONException err){
+                    Log.e(TAG,"Exception while getting Object from JSON for "+currentDateString);
+                }
+            }
+
+            Log.i(TAG, "Getting steps for today: " + daySteps);
+        }
+
+        Boolean can = StepCounterOldService.deviceHasStepCounter(this.getPackageManager());
+
+        if(can) {
+            Intent stepCounter = new Intent(this, StepCounterService.class);
+            startService(stepCounter);
+        } else {
+            Intent stepCounterOld = new Intent(this, StepCounterOldService.class);
+            startService(stepCounterOld);
+        }
     }
 
     private void setAlarm() {

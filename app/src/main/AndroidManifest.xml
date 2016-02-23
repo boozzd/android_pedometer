@@ -8,6 +8,9 @@
     <uses-feature
         android:name="android.hardware.sensor.stepdetector"
         android:required="true"/>
+    <uses-feature
+        android:name="android.hardware.sensor.accelerometer"
+        android:required="true" />
 
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <uses-permission android:name="android.permission.BIND_NOTIFICATION_LISTENER_SERVICE"/>
@@ -35,6 +38,8 @@
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
             </intent-filter>
         </receiver>
+
+        <service android:name=".StepCounterOldService"/>
     </application>
 
 </manifest>
